@@ -31,7 +31,7 @@ func rootRun(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	pass_type := funcs.PassLetter
+	pass_type := funcs.PassSymbol
 	switch true {
 	case IsSymbolPass:
 		pass_type = funcs.PassSymbol
