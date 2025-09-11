@@ -31,7 +31,20 @@ func rootRun(cmd *cobra.Command, args []string) {
 		return
 	}
 
-	funcs.PassPrint(funcs.GeneratePass(pass_len, 2), true)
+	pass_type := funcs.PassLetter
+	switch true {
+	case IsSymbolPass:
+		pass_type = funcs.PassSymbol
+
+	case IsNumPass:
+		pass_type = funcs.PassNum
+
+	case IsLetterPass:
+		pass_type = funcs.PassLetter
+	}
+
+	pass := funcs.GeneratePass(pass_len, pass_type)
+	funcs.PassPrint(pass, IsUncolored)
 }
 
 var rootCommand = &cobra.Command{

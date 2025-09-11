@@ -7,15 +7,15 @@ func GeneratePass(size int, pass_type int) string {
 	valid_chars := ""
 
 	if pass_type >= 0 {
-		valid_chars += PassAlphas
+		valid_chars += CharsLetter
 	}
 
 	if pass_type >= 1 {
-		valid_chars += PassNums
+		valid_chars += CharsNum
 	}
 
 	if pass_type >= 2 {
-		valid_chars += PassSymbols
+		valid_chars += CharsSymbol
 	}
 
 	for range size {
