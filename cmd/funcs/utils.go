@@ -1,20 +1,20 @@
-package main
+package funcs
 
 import (
 	"fmt"
 	"strings"
 )
 
-func pass_print(pass string, uncolored bool) {
+func PassPrint(pass string, uncolored bool) {
 	if uncolored {
 		fmt.Println(pass)
 		return
 	}
 
 	for _, char := range pass {
-		if strings.ContainsRune(NUMS, rune(char)) {
+		if strings.ContainsRune(PassNums, rune(char)) {
 			fmt.Printf("\033[34m%c", char)
-		} else if strings.ContainsRune(SYMBOLS, rune(char)) {
+		} else if strings.ContainsRune(PassSymbols, rune(char)) {
 			fmt.Printf("\033[31m%c", char)
 		} else {
 			fmt.Printf("\x1b[0m%c", char)
