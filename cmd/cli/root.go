@@ -9,12 +9,23 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var IsUncolored bool
-var IsLetterPass bool
-var IsNumPass bool
-var IsSymbolPass bool
+var isUncolored bool
+var isLetterPass bool
+var isNumPass bool
+var isSymbolPass bool
+var passCount int
 
 func rootRun(cmd *cobra.Command, args []string) {
+	if len(args) == 0 {
+		fmt.Println("No password size was specified. Use '--help' for more info.")
+		return
+	}
+
+	if passCount <= 0 || passCount > 99 {
+		fmt.Println("Invalid password amount. Aborting...")
+		return
+	}
+
 	pass_len, err := strconv.Atoi(args[0])
 	if err != nil {
 		fmt.Println("The password size is not an integer. Aborting...")
@@ -33,39 +44,50 @@ func rootRun(cmd *cobra.Command, args []string) {
 
 	pass_type := funcs.PassSymbol
 	switch true {
-	case IsSymbolPass:
+	case isSymbolPass:
 		pass_type = funcs.PassSymbol
 
-	case IsNumPass:
+	case isNumPass:
 		pass_type = funcs.PassNum
 
-	case IsLetterPass:
+	case isLetterPass:
 		pass_type = funcs.PassLetter
 	}
 
-	pass := funcs.GeneratePass(pass_len, pass_type)
-	funcs.PassPrint(pass, IsUncolored)
+	for i := range passCount {
+		pass := funcs.GeneratePass(pass_len, pass_type)
+
+		if passCount == 1 {
+			funcs.PassPrint(pass, isUncolored)
+		} else {
+			funcs.PassPrint(fmt.Sprintf("%.02d | %s", i+1, pass), isUncolored)
+		}
+	}
 }
 
 var rootCommand = &cobra.Command{
-	Use:   "passdotgo",
-	Short: "Yet another password generator utility.",
-	Args:  cobra.ExactArgs(1),
-	Run:   rootRun,
+	Use:          "passdotgo <length>",
+	Short:        "Yet another password generator utility.",
+	Args:         cobra.MaximumNArgs(1),
+	Run:          rootRun,
+	SilenceUsage: true,
 }
 
 func Setup() {
-	rootCommand.Flags().BoolVarP(&IsUncolored, "uncolored", "u", false,
+	rootCommand.Flags().BoolVarP(&isUncolored, "uncolored", "u", false,
 		"outputs an uncolored password")
 
-	rootCommand.Flags().BoolVarP(&IsLetterPass, "letters", "l", false,
+	rootCommand.Flags().BoolVarP(&isLetterPass, "letters", "l", false,
 		"generates a letters only password")
 
-	rootCommand.Flags().BoolVarP(&IsNumPass, "numbers", "n", false,
+	rootCommand.Flags().BoolVarP(&isNumPass, "numbers", "n", false,
 		"generates a letters and numbers password")
 
-	rootCommand.Flags().BoolVarP(&IsSymbolPass, "symbols", "s", false,
+	rootCommand.Flags().BoolVarP(&isSymbolPass, "symbols", "s", false,
 		"generates an all characters password")
+
+	rootCommand.Flags().IntVarP(&passCount, "count", "c", 1,
+		"the amount of passwords to generate")
 
 	rootCommand.Execute()
 }
