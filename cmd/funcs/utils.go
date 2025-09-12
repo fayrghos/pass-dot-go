@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-func PassPrint(pass string, uncolored bool) {
-	if uncolored {
+func PassPrint(pass string, colored bool) {
+	if !colored {
 		fmt.Println(pass)
 		return
 	}

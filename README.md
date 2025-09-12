@@ -8,24 +8,33 @@ The program can be used to generate passwords up to 80 characters long, includin
 passdotgo <length> [flags]
 ```
 
-### Options
-| Option          | Description                        |
+### Flags
+| Flag            | Description                        |
 | --------------- | ---------------------------------- |
 | -l, --letters   | Letters only password.             |
 | -n, --numbers   | Letters and numbers password.      |
 | -s, --symbols   | All characters password (Default). |
-| -u, --uncolored | Outputs an uncolored password.     |
+| -e, --eye-candy | Outputs a colorful password.       |
 | -c, --count     | Generates multiple passwords.      |
 | -h, --help      | Helps.                             |
 
 > [!IMPORTANT]
-> If your terminal doesn't render colored characters properly, or if you're exporting the output using `> stuff.txt`, use the `--uncolored` option.
+> The `--eye-candy` flag will not function properly if your terminal doesn't support ANSI colors or if you're exporting the output using the `>` operator.
 
 ## Building
 ```bash
-# Compiling
 go build -o ./bin/passdotgo
+```
+The binary will appear inside the `/bin` subfolder.
 
-# Running (Three 42-char passwords)
-./bin/passdotgo 42 --symbols --count 3
+## Examples
+```bash
+# A single 42-char password
+./bin/passdotgo 42
+
+# Three 42-char passwords
+./bin/passdotgo 42 --count 3
+
+# Two alphanumeric passwords, with a colorful output
+./bin/passdotgo 42 -n -c 2 --eye-candy
 ```

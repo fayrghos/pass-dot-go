@@ -9,11 +9,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var isUncolored bool
-var isLetterPass bool
-var isNumPass bool
-var isSymbolPass bool
-var passCount int
+var (
+	eyeCandyEnabled bool
+	isLetterPass    bool
+	isNumPass       bool
+	isSymbolPass    bool
+	passCount       int
+)
 
 func rootRun(cmd *cobra.Command, args []string) {
 	if len(args) == 0 {
@@ -58,9 +60,9 @@ func rootRun(cmd *cobra.Command, args []string) {
 		pass := funcs.GeneratePass(pass_len, pass_type)
 
 		if passCount == 1 {
-			funcs.PassPrint(pass, isUncolored)
+			funcs.PassPrint(pass, eyeCandyEnabled)
 		} else {
-			funcs.PassPrint(fmt.Sprintf("%.02d | %s", i+1, pass), isUncolored)
+			funcs.PassPrint(fmt.Sprintf("%.02d | %s", i+1, pass), eyeCandyEnabled)
 		}
 	}
 }
@@ -74,8 +76,8 @@ var rootCommand = &cobra.Command{
 }
 
 func Setup() {
-	rootCommand.Flags().BoolVarP(&isUncolored, "uncolored", "u", false,
-		"outputs an uncolored password")
+	rootCommand.Flags().BoolVarP(&eyeCandyEnabled, "eye-candy", "e", false,
+		"outputs a colorful password")
 
 	rootCommand.Flags().BoolVarP(&isLetterPass, "letters", "l", false,
 		"generates a letters only password")
