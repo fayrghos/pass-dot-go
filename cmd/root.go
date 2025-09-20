@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"src/cmd/funcs"
+	"src/internal/funcs"
 
 	"github.com/spf13/cobra"
 )
